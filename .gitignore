@@ -1,0 +1,10 @@
+# Local Prometheus config: contains real cluster IDs / endpoints
+prometheus.yml
+
+# Metrics credentials
+secrets/
+*.env
+.env
+
+# Claude Code local settings
+.claude/settings.local.json

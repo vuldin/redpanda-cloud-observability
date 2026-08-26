@@ -1,0 +1,25 @@
+# Copy to prometheus.yml and fill in your own cluster values.
+#   cp prometheus.yml.example prometheus.yml
+#
+# prometheus.yml is gitignored so real cluster IDs and credentials stay local.
+# The metrics password is read from a file (Prometheus does not expand env vars
+# in this config), so also create:
+#   mkdir -p secrets && echo -n 'YOUR_PASSWORD' > secrets/metrics_password
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: redpandaCloud-CLUSTER_NAME
+    static_configs:
+      - targets:
+          - CLUSTER_ID.console.REGION.CLOUD.ign.cloud.redpanda.com
+    metrics_path: /api/cloud/prometheus/public_metrics
+    basic_auth:
+      username: prometheus
+      password_file: /etc/prometheus/secrets/metrics_password
+    scheme: https
+    relabel_configs:
+      - target_label: redpanda_cloud_data_cluster_name
+        replacement: CLUSTER_NAME
